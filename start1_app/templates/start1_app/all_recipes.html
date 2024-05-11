@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Все рецепты {% endblock %}</title>
+</head>
+
+<body>
+    {% block content %}
+    <h1> Все рецепты </h1>
+    {% for key, value in recipes.items %}
+            <ul>
+                <a href="/one_recipes/{{ key }}/">Рецепт № {{ key }}</a>
+            {% for k, v in value.items %}
+                <li>{{ k }} - {{ v }} </li>
+            {% endfor %}
+             {% for keys, values in img.items %}
+                {% if keys == key %}
+                <img src= '{{ values }}' alt="{{ product.name }}">
+                {% endif %}
+                {% endfor %}
+    </ul>
+    {% endfor %}
+
+
+
+
+    {% endblock %}
+
+</body>
+

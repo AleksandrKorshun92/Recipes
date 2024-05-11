@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Рецепт {{ prod.name }} {% endblock %}</title>
+</head>
+
+<body>
+    {% block content %}
+    <h1> Рецепт № {{ prod.pk }} </h1>
+      <ul> 🟢 Рецепт под названием - {{ prod.name }}
+         <li>Автор рецепта - {{ prod.author }} </li>
+          <li>Подробное описание блюда - {{ prod.description }} </li>
+          <li> Инструкция приготовления блюда - {{ prod.cooking_instructions }} </li>
+          <li> Время приготовления - {{ prod.cooking_time }} </li>
+          <li>Дата создания рецепта на сайте - {{ prod.register_date }} </li>
+          <li>Категория рецепта - {{ c }} </li>
+          <img src= '{{ img }}' alt="{{ product.name }}">
+
+
+        {% for key, value in prod.items %}
+            <ul> 🟢 Рецепт № {{ key }}
+            {% for k, v in value.items %}
+                <li>{{ k }} - {{ v }} </li>
+            {% endfor %}
+             {% for keys, values in img.items %}
+                {% if keys == key %}
+                <img src= '{{ values }}' alt="{{ product.name }}">
+                {% endif %}
+                {% endfor %}
+    </ul>
+    {% endfor %}
+
+
+    {% endblock %}
+
+</body>
+

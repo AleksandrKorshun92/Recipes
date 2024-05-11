@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Рецепты {{current_user}}{% endblock %}</title>
+</head>
+
+<body>
+    {% block content %}
+    <div class="bottoms_content">
+                <div class="bottom_content_left"><form action="/add/" method="post">
+                {% csrf_token %}
+                <button type="submit">Добавить рецепт </button>
+                </form>
+                </div>
+                <div class="bottom_content_left"><form action="/update_user_recipes/" method="post">
+                {% csrf_token %}
+                <button type="submit">Изменить рецепт</button>
+                </form>
+                </div>
+        </div>
+
+    <h1> Рецепты {{current_user}}: </h1>
+    {% if not user_recipes %}
+         <h2>🔴 Увы и ах, но у тебя {{current_user}} нет рецептов  </h2>
+    {% else %}
+        {% for recip in user_recipes %}
+        <h3> 🟢 Рецепт № {{ recip.pk }}</h3>
+
+            <ul>Название, описание рецепта:
+            {% for key, value in recipes.items %}
+            {% if key == recip.pk %}
+            {% for elem, k in value.items %}
+            <li>{{ elem }} - {{ k }} </li>
+            {% endfor %}
+                {% for key, value in img.items %}
+                {% if key == recip.pk %}
+                <img src= '{{ value }}' alt="{{ product.name }}">
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    {% endif %}
+    {% endblock %}
+</body>
+

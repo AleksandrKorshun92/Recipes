@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} Вход успешно  {% endblock %}
+
+
+{% block content %}
+<h2> Авторизация {{ user_name }} прошла успешна </h2>
+
+<form action="/my_recipes/" method="post">
+    {% csrf_token %}
+    <p>Перейти в мои рецепты</p>
+<button type="submit">Перейти </button>
+</form>
+<form action="/add/" method="post">
+    {% csrf_token %}
+    <p>Добавить рецепт</p>
+<button type="submit">Добавить </button>
+</form>
+{% endblock %}

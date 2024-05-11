@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {{title}} {% endblock %} </title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .bottoms_content {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+    </style>
+
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand">Сайт рецептов</a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Главная</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/all_recipes/">Все рецепты</a>
+              </li>
+              <li class="nav-item">
+                  {% if user.is_authenticated %}
+                <a class="nav-link" href="/my_recipes/">Мои Рецепт</a>
+                  {% else %}
+                  <a class="nav-link" href="/login/">Мои Рецептпт</a>
+                  {% endif %}
+              </li>
+
+              <li class="nav-item">
+                  {% if user.is_authenticated %}
+                <a class="nav-link" href="/add/">Добавить рецепт</a>
+                  {% else %}
+                  <a class="nav-link" href="/login/">Добавить рецепт</a>
+                  {% endif %}
+              </li>
+                <li class="nav-item">
+                  {% if user.is_authenticated %}
+                <a class="nav-link" href="/update_user_recipes/">Изменить рецепт</a>
+                  {% else %}
+                  <a class="nav-link" href="/login/">Изменить рецепт</a>
+                  {% endif %}
+              </li>
+               <li class="nav-item">
+                <div class="hidden md:flex items-center space-x-1">
+                    {% if user.is_authenticated %}
+                    <a class="font-bold py-5 px-3">{{ user.username }}</a>
+                    <a href="{% url 'logout' %}" class="last py-2 px-3 bg-yellow-400 text-green hover:bg-yellow-300 text-sm hover:text-yellow-800 rounded transition duration-300">Выйти</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="py-5 px-3">Войти</a>
+                    <a href="{% url 'register' %}" class="last py-2 px-3 bg-yellow-400 text-green hover:bg-yellow-300 text-sm hover:text-yellow-800 rounded transition duration-300">Зарегистрироваться</a>
+                    {% endif %}
+                </div>
+                </li>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success rounded-circle" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+
+{% block content %}
+ <p class="h1">Сайт рецептов</p>
+<p class="h2">На сайте можно посмотреть разные рецепты, добавить свои рецепты </p>
+<nav id="navbar-example2" class="navbar navbar-light bg-light px-3 fw-bolder">
+        <a class="navbar-brand " href="/">Меню основных рецептов</a>
+        <ul class="nav nav-pills">
+            {% for key, value in recipes.items %}
+          <li class="nav-item">
+            <a class="nav-link" href="#scrollspyHeading{{ key }}">Рецепт № {{ key }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example fst-italic" tabindex="0">
+       {% for key, value in recipes.items %}
+            <ul>
+                <h4 id="scrollspyHeading{{ key }}" ><a href="one_recipes/{{ key }}/"Рецепт № {{ key }} </a></h4>
+                <a href="one_recipes/{{ key }}/">Рецепт № {{ key }}</a>
+            {% for k, v in value.items %}
+                <li>{{ k }} - {{ v }} </li>
+            {% endfor %}
+             {% for keys, values in img.items %}
+                {% if keys == key %}
+                <img src= '{{ values }}' alt="{{ product.name }}">
+                {% endif %}
+                {% endfor %}
+    </ul>
+    {% endfor %}
+
+
+
+    <footer class="mt-auto">
+    <hr>
+    <p class="text-center text-muted">© 2024 </p>
+</footer>
+
+    {% endblock %}
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
